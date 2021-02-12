@@ -1,13 +1,16 @@
-import React from 'react';
-import './Form';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import FormPropsTextFields from './Form';
+import React, { useState } from "react";
+import "./Form";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import FormPropsTextFields from "./Form";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { Link } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -18,8 +21,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
+      {...other}>
       {value === index && (
         <Box p={3}>
           <Typography>{children}</Typography>
@@ -38,7 +40,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -51,27 +53,73 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleTabs() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const handleLogin = () => {};
+
+  const handleLogOut = () => {
+    setLoggedIn(false);
+  };
+
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Fuel Quote Form" {...a11yProps(0)} />
-          <Tab label="Fuel Quote History" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <h3>Fuel Quote Form</h3>
-        <FormPropsTextFields/>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <h3>Fuel Quote History</h3>
-      </TabPanel>
-    </div>
+    <>
+      {!loggedIn ? (
+        <AppBar>
+          <Grid container>
+            <Grid item>
+              <Tabs
+                // value={value}
+                onChange={handleChange}
+                aria-label="simple tabs example"></Tabs>
+            </Grid>
+            <Grid item container alignItems="center" justify="flex-end">
+              <Grid item style={{ marginRight: "10px" }}>
+                <Link to="/register">
+                  <Button variant="contained">Sign Up</Button>
+                </Link>
+              </Grid>
+              <Grid item style={{ marginRight: "10px" }}>
+                <Link to="/login">
+                  <Button variant="contained">Log In</Button>
+                </Link>
+              </Grid>
+            </Grid>
+          </Grid>
+        </AppBar>
+      ) : (
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Grid container alignItems="center" justify="space-between">
+              <Grid item>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="simple tabs example">
+                  <Tab label="Fuel Quote Form" {...a11yProps(0)} />
+                  <Tab label="Fuel Quote History" {...a11yProps(1)} />
+                </Tabs>
+              </Grid>
+              <Grid item style={{ marginRight: "10px" }}>
+                <Button variant="contained" onClick={handleLogOut}>
+                  Log out
+                </Button>
+              </Grid>
+            </Grid>
+          </AppBar>
+          <TabPanel value={value} index={0}>
+            <h3>Fuel Quote Form</h3>
+            <FormPropsTextFields />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <h3>Fuel Quote History</h3>
+          </TabPanel>
+        </div>
+      )}
+    </>
   );
 }
