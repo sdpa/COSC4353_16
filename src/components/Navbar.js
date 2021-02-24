@@ -11,6 +11,7 @@ import FormPropsTextFields from "./Form";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
+import Login from "./LogIn";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,9 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs(props) {
   const classes = useStyles();
-  const [loggedIn, setLoggedIn] = useState(false);
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -62,36 +62,13 @@ export default function SimpleTabs() {
 
   const handleLogin = () => {};
 
-  const handleLogOut = () => {
-    setLoggedIn(false);
+  const handleLogOut = (props) => {
+    props.setLoggedIn(false);
   };
 
   return (
     <>
-      {!loggedIn ? (
-        <AppBar>
-          <Grid container>
-            <Grid item>
-              <Tabs
-                // value={value}
-                onChange={handleChange}
-                aria-label="simple tabs example"></Tabs>
-            </Grid>
-            <Grid item container alignItems="center" justify="flex-end">
-              <Grid item style={{ marginRight: "10px" }}>
-                <Link to="/register">
-                  <Button variant="contained">Sign Up</Button>
-                </Link>
-              </Grid>
-              <Grid item style={{ marginRight: "10px" }}>
-                <Link to="/login">
-                  <Button variant="contained">Log In</Button>
-                </Link>
-              </Grid>
-            </Grid>
-          </Grid>
-        </AppBar>
-      ) : (
+      {!props.loggedIn ? null : (
         <div className={classes.root}>
           <AppBar position="static">
             <Grid container alignItems="center" justify="space-between">
