@@ -13,17 +13,18 @@ function App() {
       <div className="App">
         <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
         <Switch>
-          <Route
-            path="/"
-            exact
-            component={<LogIn setLoggedIn={setLoggedIn} />}
-          />
-          <Route path="/register" exact component={Registration} />
-          {/* <Route path="/login" exact component={LogIn} /> */}
+          <Route path="/" exact>
+            <LogIn />
+          </Route>
+          <Route>
+            <Registration />
+          </Route>
+          {/* <Route path="/register" exact component={Registration} /> */}
         </Switch>
       </div>
     </Router>
   );
+  //return <div>test</div>;
 }
 
 export default App;
