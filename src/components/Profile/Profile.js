@@ -6,30 +6,34 @@ import {
   CardActions,
   TextField,
   MenuItem,
-  Button
+  Button,
+  Typography,
+  CardHeader,
 } from "@material-ui/core";
 import validationsForm from "./validationSchema";
 import { withFormik } from "formik";
 import * as yup from "yup";
-import {states} from './states'
+import { states } from "./states";
 
 const styles = () => ({
   card: {
     maxWidth: 420,
-    marginTop: 50
+    marginTop: 50,
   },
   container: {
     display: "Flex",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   actions: {
-    float: "right"
-  }
+    float: "right",
+  },
+  formTitle: {
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 });
 
-
-
-const form = props => {
+const form = (props) => {
   const {
     classes,
     values,
@@ -39,7 +43,7 @@ const form = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset
+    handleReset,
   } = props;
 
   return (
@@ -47,6 +51,7 @@ const form = props => {
       <form onSubmit={handleSubmit}>
         <Card className={classes.card}>
           <CardContent>
+            <Typography className={classes.formTitle}>Profile Info</Typography>
             <TextField
               id="name"
               label="Full Name"
@@ -104,9 +109,8 @@ const form = props => {
               error={touched.state && Boolean(errors.state)}
               margin="dense"
               variant="outlined"
-              fullWidth
-            >
-              {states.map(option => (
+              fullWidth>
+              {states.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -138,7 +142,13 @@ const form = props => {
             />
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button  type="submit" color="primary" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              color="primary"
+              disabled={isSubmitting}
+              onClick={() => {
+                props.handleSubmission();
+              }}>
               SUBMIT
             </Button>
             <Button color="secondary" onClick={handleReset}>
@@ -159,7 +169,7 @@ const Form = withFormik({
     addressTwo,
     state,
     zipcode,
-    city
+    city,
   }) => {
     return {
       name: name || "",
@@ -168,7 +178,7 @@ const Form = withFormik({
       email: email || "",
       state: state || "",
       city: city || "",
-      zipcode: zipcode || ""
+      zipcode: zipcode || "",
     };
   },
 
@@ -179,11 +189,10 @@ const Form = withFormik({
       // submit to the server
       alert(JSON.stringify(values, null, 2));
       setSubmitting(false);
-      localStorage.setItem('address', values.addressOne);
-      window.location.replace('http://localhost:3000/')
-
+      localStorage.setItem("address", values.addressOne);
+      window.location.replace("http://localhost:3000/");
     }, 1000);
-  }
+  },
 })(form);
 
 export default withStyles(styles)(Form);

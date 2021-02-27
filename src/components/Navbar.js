@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Form";
+import "./FuelQuoteForm";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -7,11 +7,12 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import FormPropsTextFields from "./Form";
+import FuelQuoteForm from "./FuelQuoteForm";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import Login from "./LogIn";
+import { Toolbar } from "@material-ui/core";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,8 +48,13 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    textAlign: "center",
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+  },
+  title: {
+    textTransform: "uppercase",
+    fontWeight: "bold",
   },
 }));
 
@@ -62,13 +68,23 @@ export default function SimpleTabs(props) {
 
   const handleLogin = () => {};
 
-  const handleLogOut = (props) => {
+  const handleLogOut = () => {
     props.setLoggedIn(false);
   };
 
   return (
     <>
-      {!props.loggedIn ? null : (
+      {!props.loggedIn ? (
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography className={classes.title}>
+                Fuel Management System
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </div>
+      ) : (
         <div className={classes.root}>
           <AppBar position="static">
             <Grid container alignItems="center" justify="space-between">
@@ -90,10 +106,11 @@ export default function SimpleTabs(props) {
           </AppBar>
           <TabPanel value={value} index={0}>
             <h3>Fuel Quote Form</h3>
-            <FormPropsTextFields />
+            <FuelQuoteForm />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <h3>Fuel Quote History</h3>
+            <p>No available Quotes</p>
           </TabPanel>
         </div>
       )}
