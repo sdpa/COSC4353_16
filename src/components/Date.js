@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DatePickers() {
+export const DatePickers = (props) => {
   const classes = useStyles();
 
   return (
@@ -23,6 +23,7 @@ export default function DatePickers() {
                 InputLabelProps={{
                 shrink: true,
                 }}
+                onChange={props.handleChange}
             />
             </form>
         </div>

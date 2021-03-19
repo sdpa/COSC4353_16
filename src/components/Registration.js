@@ -3,7 +3,6 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Paper, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import SubmitButton from "./SubmitButton";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router";
 import Profile from "./Profile/Profile";
