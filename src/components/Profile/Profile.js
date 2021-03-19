@@ -8,12 +8,12 @@ import {
   MenuItem,
   Button,
   Typography,
-  CardHeader,
 } from "@material-ui/core";
 import validationsForm from "./validationSchema";
 import { withFormik } from "formik";
 import * as yup from "yup";
 import { states } from "./states";
+import axios from "axios";
 
 const styles = () => ({
   card: {
@@ -109,7 +109,8 @@ const form = (props) => {
               error={touched.state && Boolean(errors.state)}
               margin="dense"
               variant="outlined"
-              fullWidth>
+              fullWidth
+            >
               {states.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -142,13 +143,7 @@ const form = (props) => {
             />
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button
-              type="submit"
-              color="primary"
-              disabled={isSubmitting}
-              onClick={() => {
-                props.handleSubmission();
-              }}>
+            <Button type="submit" color="primary" disabled={isSubmitting}>
               SUBMIT
             </Button>
             <Button color="secondary" onClick={handleReset}>
@@ -184,14 +179,21 @@ const Form = withFormik({
 
   validationSchema: yup.object().shape(validationsForm),
 
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
+  handleSubmit: async (values, { setSubmitting }) => {
       // submit to the server
+      debugger;
+
       alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
       localStorage.setItem("address", values.addressOne);
-      window.location.replace("http://localhost:3000/");
-    }, 1000);
+      await axios({
+        method: "post",
+        url: "http://localhost:3000/client",
+        data: {
+          values,
+        },
+      });
+    setSubmitting(false);
+
   },
 })(form);
 
