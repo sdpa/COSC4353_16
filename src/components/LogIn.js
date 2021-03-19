@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Paper, Box, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
 import { DriveEtaTwoTone } from "@material-ui/icons";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,15 @@ const LogIn = (props) => {
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
+  axios
+    .get("http://localhost:9000")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   return (
     <div className={classes.root}>
