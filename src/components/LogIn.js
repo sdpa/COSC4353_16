@@ -3,12 +3,8 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Paper, Box, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
 import SubmitButton from "./SubmitButton";
 import { AlternateEmail, DriveEtaTwoTone } from "@material-ui/icons";
-=======
-import { DriveEtaTwoTone } from "@material-ui/icons";
->>>>>>> 1ef85b3740c69f828ee035d2b4f49a5df08648ce
 import axios from "axios";
 import { getConfig } from "../authConfig";
 import { useFormik } from "formik";
