@@ -14,6 +14,7 @@ import { withFormik } from "formik";
 import * as yup from "yup";
 import { states } from "./states";
 import axios from "axios";
+import { getConfig } from "../../authConfig";
 
 const styles = () => ({
   card: {
@@ -87,19 +88,6 @@ const form = (props) => {
               fullWidth
             />
             <TextField
-              id="email"
-              label="Email"
-              type="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.email ? errors.email : ""}
-              error={touched.email && Boolean(errors.email)}
-              margin="dense"
-              variant="outlined"
-              fullWidth
-            />
-            <TextField
               select
               id="state"
               label="State"
@@ -142,7 +130,7 @@ const form = (props) => {
             />
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button type="submit" color="primary" disabled={isSubmitting}>
+            <Button type="submit" color="primary">
               SUBMIT
             </Button>
             <Button color="secondary" onClick={handleReset}>
@@ -159,7 +147,6 @@ const Form = withFormik({
   mapPropsToValues: ({
     name,
     addressOne,
-    email,
     addressTwo,
     state,
     zipcode,
@@ -169,7 +156,6 @@ const Form = withFormik({
       name: name || "",
       addressOne: addressOne || "",
       addressTwo: addressTwo || "",
-      email: email || "",
       state: state || "",
       city: city || "",
       zipcode: zipcode || "",
@@ -181,6 +167,21 @@ const Form = withFormik({
   handleSubmit: (values) => {
     console.log(values);
     console.log("submitting");
+    axios
+      .post("http://localhost:9000/profile", getConfig(), {
+        full_name: values.name,
+        address_one: values.addressOne,
+        address_two: values.addressTwo,
+        city: values.cty,
+        state: values.state,
+        zipcode: values.zipcode,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // setTimeout(() => {
     //   // submit to the server
     //   alert(JSON.stringify(values, null, 2));
