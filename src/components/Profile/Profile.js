@@ -142,13 +142,7 @@ const form = (props) => {
             />
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button
-              type="submit"
-              color="primary"
-              disabled={isSubmitting}
-              onClick={() => {
-                props.handleSubmission();
-              }}>
+            <Button type="submit" color="primary" disabled={isSubmitting}>
               SUBMIT
             </Button>
             <Button color="secondary" onClick={handleReset}>
@@ -184,14 +178,16 @@ const Form = withFormik({
 
   validationSchema: yup.object().shape(validationsForm),
 
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      // submit to the server
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      localStorage.setItem("address", values.addressOne);
-      window.location.replace("http://localhost:3000/");
-    }, 1000);
+  handleSubmit: (values) => {
+    console.log(values);
+    console.log("submitting");
+    // setTimeout(() => {
+    //   // submit to the server
+    //   alert(JSON.stringify(values, null, 2));
+    //   setSubmitting(false);
+    //   localStorage.setItem("address", values.addressOne);
+    //   window.location.replace("http://localhost:3000/");
+    // }, 1000);
   },
 })(form);
 

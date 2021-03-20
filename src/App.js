@@ -22,9 +22,9 @@ function App() {
 
   return (
     <>
-      <Navbar setLoggedIn={setLoggedIn} loggedIn={loggedIn}></Navbar>
       <Router>
         <div className={classes.app}>
+          <Navbar setLoggedIn={setLoggedIn} loggedIn={loggedIn}></Navbar>
           <Switch>
             <Route path="/" exact>
               <Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
@@ -35,9 +35,9 @@ function App() {
             <Route path="/profile" exact>
               <Profile />
             </Route>
-            <Route path="/dashboard" exact>
+            {/* <Route path="/dashboard" exact>
               <Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-            </Route>
+            </Route> */}
             {/* <Route path="/register" exact component={Registration} /> */}
           </Switch>
         </div>

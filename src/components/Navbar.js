@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import Login from "./LogIn";
+import { useHistory } from "react-router-dom";
 import { Toolbar } from "@material-ui/core";
 
 function TabPanel(props) {
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleTabs(props) {
+  let history = useHistory();
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -70,6 +72,7 @@ export default function SimpleTabs(props) {
 
   const handleLogOut = () => {
     props.setLoggedIn(false);
+    history.push("/");
   };
 
   return (
