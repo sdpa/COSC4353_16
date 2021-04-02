@@ -44,6 +44,8 @@ const Registration = (props) => {
     password: "",
   });
 
+  const [authError, setAuthError] = useState("");
+
   const validate = (values) => {
     let errors = {};
     if (!values.email) {
@@ -92,8 +94,10 @@ const Registration = (props) => {
           errors_response.forEach((error) => {
             new_errors[error.param] = error.msg;
           });
+          setErrors(new_errors);
+        } else {
+          setAuthError(err.response.data.error);
         }
-        setErrors(new_errors);
       });
   };
 
@@ -101,6 +105,11 @@ const Registration = (props) => {
     <>
       <Grid container spacing={1} direction="column" className={classes.root}>
         <Typography className={classes.formTitle}>Create an account</Typography>
+        {authError ? (
+          <Alert severity="error" style={{ paddingBottom: "10px" }}>
+            {authError}
+          </Alert>
+        ) : null}
         <Grid item xs={12}>
           <TextField
             label="Username"
