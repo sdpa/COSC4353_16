@@ -69,8 +69,8 @@ const LogIn = (props) => {
       .then((res) => {
         console.log(res);
         const access_token = res.data.accessToken;
-        console.log(access_token);
-        // localStorage.setItem("access_token", access_token);
+        localStorage.setItem("access_token", res.data.accessToken);
+        localStorage.setItem("user_id", res.data.user_id);
         // props.setLoggedIn(true);
         //Make request to profile, it if exists, we go to dashboard.
         axios

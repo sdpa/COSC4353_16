@@ -83,6 +83,8 @@ const Registration = (props) => {
       })
       .then((res) => {
         console.log(res);
+        localStorage.setItem("access_token", res.data.accessToken);
+        localStorage.setItem("user_id", res.data.user_id);
         // props.setLoggedIn(true);
         history.push("/profile");
       })

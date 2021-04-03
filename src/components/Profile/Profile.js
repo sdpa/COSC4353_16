@@ -15,6 +15,7 @@ import * as yup from "yup";
 import { states } from "./states";
 import axios from "axios";
 import { getConfig } from "../../authConfig";
+import { LocalTaxiSharp } from "@material-ui/icons";
 
 const styles = () => ({
   card: {
@@ -169,12 +170,13 @@ const Form = withFormik({
     console.log("submitting");
     axios
       .post("http://localhost:9000/profile", getConfig(), {
+        user_id: localStorage.getItem("user_id"),
         full_name: values.name,
         address_one: values.addressOne,
         address_two: values.addressTwo,
         city: values.cty,
         state: values.state,
-        zipcode: values.zipcode,
+        zip_code: values.zipcode,
       })
       .then((res) => {
         console.log(res);
