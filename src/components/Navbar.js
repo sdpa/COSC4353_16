@@ -15,6 +15,8 @@ import Login from "./LogIn";
 import { useHistory } from "react-router-dom";
 import { Toolbar } from "@material-ui/core";
 
+import FuelQuoteHistory from "./FuelQuoteHistory";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -72,6 +74,7 @@ export default function SimpleTabs(props) {
 
   const handleLogOut = () => {
     props.setLoggedIn(false);
+    localStorage.clear();
     history.push("/");
   };
 
@@ -112,8 +115,7 @@ export default function SimpleTabs(props) {
             <FuelQuoteForm />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <h3>Fuel Quote History</h3>
-            <p>No available Quotes</p>
+            <FuelQuoteHistory></FuelQuoteHistory>
           </TabPanel>
         </div>
       )}

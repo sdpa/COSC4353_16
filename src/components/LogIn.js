@@ -91,6 +91,7 @@ const LogIn = (props) => {
       })
       .catch((err) => {
         //Log In failed.
+        console.log(err.response);
         console.log("Errors: ", err.response.data);
         let errors_response = err.response.data.errors;
         let new_errors = { email: "", password: "" };

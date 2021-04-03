@@ -35,7 +35,7 @@ export default class FormPropsTextFields extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:9000/fuel-quote-form", {
+    const res = await fetch("http://localhost:9000/fuel_quote", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
