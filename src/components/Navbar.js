@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { Toolbar } from "@material-ui/core";
 
 import FuelQuoteHistory from "./FuelQuoteHistory";
+import ProfileView from "./ProfileView";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -101,6 +102,7 @@ export default function SimpleTabs(props) {
                   aria-label="simple tabs example">
                   <Tab label="Fuel Quote Form" {...a11yProps(0)} />
                   <Tab label="Fuel Quote History" {...a11yProps(1)} />
+                  <Tab label="Profile" {...a11yProps(2)} />
                 </Tabs>
               </Grid>
               <Grid item style={{ marginRight: "10px" }}>
@@ -116,6 +118,9 @@ export default function SimpleTabs(props) {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <FuelQuoteHistory></FuelQuoteHistory>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <ProfileView></ProfileView>
           </TabPanel>
         </div>
       )}

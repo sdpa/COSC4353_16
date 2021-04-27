@@ -33,11 +33,11 @@ function App() {
               <Registration loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             </Route>
             <Route path="/profile" exact>
-              <Profile />
+              <Profile loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             </Route>
-            {/* <Route path="/dashboard" exact>
+            <Route path="/dashboard" exact>
               <Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-            </Route> */}
+            </Route>
             {/* <Route path="/register" exact component={Registration} /> */}
           </Switch>
         </div>

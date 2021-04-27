@@ -68,6 +68,7 @@ const LogIn = (props) => {
       })
       .then((res) => {
         console.log(res);
+        // props.setLoggedIn(true);
         const access_token = res.data.accessToken;
         localStorage.setItem("access_token", res.data.accessToken);
         localStorage.setItem("user_id", res.data.user_id);

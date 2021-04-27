@@ -8,6 +8,7 @@ import {
   MenuItem,
   Button,
   Typography,
+  makeStyles,
 } from "@material-ui/core";
 import validationsForm from "./validationSchema";
 import { withFormik } from "formik";
@@ -16,8 +17,10 @@ import { states } from "./states";
 import axios from "axios";
 import { getConfig } from "../../authConfig";
 import { LocalTaxiSharp } from "@material-ui/icons";
+import { useFormik } from "formik";
+import { useHistory } from "react-router-dom";
 
-const styles = () => ({
+const useStyles = makeStyles({
   card: {
     maxWidth: 420,
     marginTop: 50,
@@ -35,33 +38,81 @@ const styles = () => ({
   },
 });
 
-const form = (props) => {
-  const {
-    classes,
-    values,
-    touched,
-    errors,
-    isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    handleReset,
-  } = props;
+const ProfileForm = (props) => {
+  const classes = useStyles();
+
+  let history = useHistory();
+
+  const validate = (values) => {
+    let errors = {};
+
+    if (!values.name) {
+      errors.name = "Required";
+    }
+    if (!values.addressOne) {
+      errors.addressOne = "Required";
+    }
+    if (!values.state) {
+      errors.state = "Required";
+    }
+    if (!values.city) {
+      errors.city = "Required";
+    }
+    if (!values.zipcode) {
+      errors.zipcode = "Required";
+    }
+    return errors;
+  };
+  const profileForm = useFormik({
+    initialValues: {
+      name: "",
+      addressOne: "",
+      addressTwo: "",
+      state: "",
+      city: "",
+      zipcode: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      axios
+        .post(
+          "http://localhost:9000/profile",
+          {
+            user_id: localStorage.getItem("user_id"),
+            full_name: values.name,
+            address_one: values.addressOne,
+            address_two: values.addressTwo,
+            city: values.city,
+            state: values.state,
+            zip_code: values.zipcode,
+          },
+          getConfig()
+        )
+        .then((res) => {
+          console.log(res);
+          props.setLoggedIn(true);
+          history.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
 
   return (
     <div className={classes.container}>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.formTitle}>Profile Info</Typography>
             <TextField
               id="name"
               label="Full Name"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.name ? errors.name : ""}
-              error={touched.name && Boolean(errors.name)}
+              name="name"
+              value={profileForm.values.name}
+              onChange={profileForm.handleChange}
+              helperText={profileForm.errors.name}
+              error={profileForm.errors.name ? true : false}
               margin="dense"
               variant="outlined"
               fullWidth
@@ -69,11 +120,11 @@ const form = (props) => {
             <TextField
               id="addressOne"
               label="Address One"
-              value={values.addressOne}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.addressOne ? errors.addressOne : ""}
-              error={touched.addressOne && Boolean(errors.addressOne)}
+              name="addressOne"
+              value={profileForm.values.addressOne}
+              onChange={profileForm.handleChange}
+              helperText={profileForm.errors.addressOne}
+              error={profileForm.errors.addressOne ? true : false}
               margin="dense"
               variant="outlined"
               fullWidth
@@ -81,9 +132,11 @@ const form = (props) => {
             <TextField
               id="addressTwo"
               label="Address Two"
-              value={values.addressTwo}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              name="addressTwo"
+              value={profileForm.values.addressTwo}
+              onChange={profileForm.handleChange}
+              helperText={profileForm.errors.addressTwo}
+              error={profileForm.errors.addressTwo ? true : false}
               margin="dense"
               variant="outlined"
               fullWidth
@@ -92,27 +145,28 @@ const form = (props) => {
               select
               id="state"
               label="State"
-              value={values.state}
-              onChange={handleChange("state")}
-              helperText={touched.state ? errors.state : ""}
-              error={touched.state && Boolean(errors.state)}
+              name="state"
+              value={profileForm.values.state}
+              onChange={profileForm.handleChange}
+              helperText={profileForm.errors.state}
+              error={profileForm.errors.state ? true : false}
               margin="dense"
               variant="outlined"
               fullWidth>
-              {states.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {states.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
                 </MenuItem>
               ))}
             </TextField>
             <TextField
               id="city"
               label="City"
-              value={values.city}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.city ? errors.city : ""}
-              error={touched.city && Boolean(errors.city)}
+              name="city"
+              value={profileForm.values.city}
+              onChange={profileForm.handleChange}
+              helperText={profileForm.errors.city}
+              error={profileForm.errors.city ? true : false}
               margin="dense"
               variant="outlined"
               fullWidth
@@ -120,21 +174,24 @@ const form = (props) => {
             <TextField
               id="zipcode"
               label="zip code"
-              value={values.zipcode}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.zipcode ? errors.zipcode : ""}
-              error={touched.zipcode && Boolean(errors.zipcode)}
+              name="zipcode"
+              value={profileForm.values.zipcode}
+              onChange={profileForm.handleChange}
+              helperText={profileForm.errors.zipcode}
+              error={profileForm.errors.zipcode ? true : false}
               margin="dense"
               variant="outlined"
               fullWidth
             />
           </CardContent>
           <CardActions className={classes.actions}>
-            <Button type="submit" color="primary">
+            <Button
+              type="submit"
+              color="primary"
+              onClick={profileForm.handleSubmit}>
               SUBMIT
             </Button>
-            <Button color="secondary" onClick={handleReset}>
+            <Button color="secondary" onClick={profileForm.handleReset}>
               CLEAR
             </Button>
           </CardActions>
@@ -144,54 +201,4 @@ const form = (props) => {
   );
 };
 
-const Form = withFormik({
-  mapPropsToValues: ({
-    name,
-    addressOne,
-    addressTwo,
-    state,
-    zipcode,
-    city,
-  }) => {
-    return {
-      name: name || "",
-      addressOne: addressOne || "",
-      addressTwo: addressTwo || "",
-      state: state || "",
-      city: city || "",
-      zipcode: zipcode || "",
-    };
-  },
-
-  validationSchema: yup.object().shape(validationsForm),
-
-  handleSubmit: (values) => {
-    console.log(values);
-    console.log("submitting");
-    axios
-      .post("http://localhost:9000/profile", getConfig(), {
-        user_id: localStorage.getItem("user_id"),
-        full_name: values.name,
-        address_one: values.addressOne,
-        address_two: values.addressTwo,
-        city: values.cty,
-        state: values.state,
-        zip_code: values.zipcode,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // setTimeout(() => {
-    //   // submit to the server
-    //   alert(JSON.stringify(values, null, 2));
-    //   setSubmitting(false);
-    //   localStorage.setItem("address", values.addressOne);
-    //   window.location.replace("http://localhost:3000/");
-    // }, 1000);
-  },
-})(form);
-
-export default withStyles(styles)(Form);
+export default ProfileForm;
