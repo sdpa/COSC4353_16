@@ -70,7 +70,7 @@ const FuelQuoteHistory = () => {
                       <TableCell align="center">{quote.gallons}</TableCell>
                       <TableCell align="center">{quote.address}</TableCell>
                       <TableCell align="center">
-                        {quote.delivery_date.slice(0, 10)}
+                        {quote.delivery_date}
                       </TableCell>
                       <TableCell align="center">{`$${quote.suggested_price}`}</TableCell>
                       <TableCell align="center">{`$${quote.total_amount}`}</TableCell>
