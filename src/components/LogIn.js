@@ -156,6 +156,7 @@ const LogIn = (props) => {
             label="Password"
             id="password"
             name="password"
+            type="password"
             onChange={formik.handleChange}
             variant="outlined"
             style={{ width: "100%" }}
